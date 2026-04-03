@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var board = Board()
+    @State private var board = Board(difficulty: .testing)
     let spacing = 2.0
     
     @State private var selectedRow = -1
@@ -38,6 +38,18 @@ struct ContentView: View {
                     }
                 }
                 .padding(5)
+                
+                HStack {
+                    ForEach(1..<10) { i in
+                        Button(String(i)) {
+                            enter(i)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .font(.largeTitle)
+                    }
+                }
+                .padding()
+                
             }
             .navigationTitle("Tap Sudoku")
         }
@@ -56,6 +68,16 @@ struct ContentView: View {
             return .highlighted
         } else {
             return .standard
+        }
+    }
+    
+    func enter(_ number: Int) {
+        if board.playerBoard[selectedRow][selectedCol] == number {
+            board.playerBoard[selectedRow][selectedCol] = 0
+            selectedNum = 0
+        } else {
+            board.playerBoard[selectedRow][selectedCol] = number
+            selectedNum = number
         }
     }
 }
