@@ -11,6 +11,10 @@ struct ContentView: View {
     @State private var board = Board()
     let spacing = 2.0
     
+    @State private var selectedRow = -1
+    @State private var selectedCol = -1
+    @State private var selectedNum = 0
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -18,8 +22,11 @@ struct ContentView: View {
                     ForEach(0..<9) { row in
                         GridRow {
                             ForEach(0..<9) { col in
-                                Rectangle().fill(Color.gray)
-                                    .aspectRatio(1, contentMode: .fit)
+                                CellView(number: board.playerBoard[row][col], selectedNumber: selectedNum, highlightState: highlightState(for: row, col: col), isCorrect: board.playerBoard[row][col] == board.fullBoard[row][col]) {
+                                    selectedRow = row
+                                    selectedCol = col
+                                    selectedNum = board.playerBoard[row][col]
+                                }
                                 
                                 if col == 2 || col == 5 {
                                     Spacer()
@@ -36,6 +43,20 @@ struct ContentView: View {
         }
         .preferredColorScheme(ColorScheme.dark)
         .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+    }
+    
+    func highlightState(for row: Int, col: Int) -> CellView.HighlightState {
+        if row == selectedRow {
+            if col == selectedCol {
+                return .selected
+            } else {
+                return .highlighted
+            }
+        } else if col == selectedCol {
+            return .highlighted
+        } else {
+            return .standard
+        }
     }
 }
 
