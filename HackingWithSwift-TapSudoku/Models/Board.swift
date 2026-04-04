@@ -32,10 +32,10 @@ struct Board: Equatable {
     
     private mutating func create() {
         let numbers = Array(1...size)
-        let positions = [0, 3, 6, 1, 4, 7, 2, 5, 8]
+        let positions = [0, 3, 6, 1, 4, 7, 2, 5, 8].shuffled()
         
-        let rows = Array(0..<size)
-        let columns = Array(0..<size)
+        let rows = Array([[0, 1, 2].shuffled(), [3, 4, 5].shuffled(), [6, 7, 8].shuffled()].shuffled()).joined()
+        let columns = Array([[0, 1, 2].shuffled(), [3, 4, 5].shuffled(), [6, 7, 8].shuffled()].shuffled()).joined()
         
         for row in rows {
             var newRow = [Int]()
@@ -46,7 +46,6 @@ struct Board: Equatable {
             }
             
             fullBoard.append(newRow)
-            print(newRow)
         }
         
         playerBoard = fullBoard
@@ -54,7 +53,7 @@ struct Board: Equatable {
     
     private mutating func prepareForPlay() {
         let empties = difficulty.rawValue
-        let allCells = 0..<size * size / 2
+        let allCells = 0..<Int(ceil(Double(size * size) / 2))
         
         for cell in allCells.shuffled().prefix(upTo: empties) {
             let row = cell / size

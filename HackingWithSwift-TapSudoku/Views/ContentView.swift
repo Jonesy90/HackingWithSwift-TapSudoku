@@ -44,6 +44,7 @@ struct ContentView: View {
                 }
                 .padding(5)
                 
+                // Columns of selectable numbers to place onto the sudoku board.
                 HStack {
                     ForEach(1..<10) { i in
                         Button(String(i)) {
@@ -88,6 +89,11 @@ struct ContentView: View {
         
     }
     
+    /// Takes in the row and column, reads it and identifies if the type of state of the cell, then updates the colour of the cell.
+    /// - Parameters:
+    ///   - row: selected row.
+    ///   - col: selected columns
+    /// - Returns: Returns the colour of the cell, depending on the highlight state.
     func highlightState(for row: Int, col: Int) -> CellView.HighlightState {
         if row == selectedRow {
             if col == selectedCol {
@@ -102,6 +108,8 @@ struct ContentView: View {
         }
     }
     
+    /// Takes an Int value, and compares the playersBoard row and column location to the Int passed in.
+    /// - Parameter number: Int value passed in to be placed onto the Sudoku board.
     func enter(_ number: Int) {
         if board.playerBoard[selectedRow][selectedCol] == number {
             board.playerBoard[selectedRow][selectedCol] = 0
@@ -112,6 +120,8 @@ struct ContentView: View {
         }
     }
     
+    /// Resets the game parameters once the game has ended.
+    /// - Parameter difficulty: Selects a difficulty for the new game.
     func newGame(difficulty: Board.Difficulty) {
         board = Board(difficulty: difficulty)
         selectedRow = -1

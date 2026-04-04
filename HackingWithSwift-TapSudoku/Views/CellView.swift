@@ -59,6 +59,8 @@ struct CellView: View {
                 .background(highlightState.color)
         }
         .buttonStyle(.plain)
+        // Automatically detects the accessibility font size enabled. Allows the user to press and hold on a cell to see it's number in a bigger font.
+        .accessibilityShowsLargeContentViewer()
     }
 }
 
